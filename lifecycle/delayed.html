@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lifecycle Callbacks</title>
+    </head>
+    <body>
+        <p>Some paragraph with an <my-element>unknown</my-element> inline element</p>
+
+        <my-element>unknown</my-element>
+
+        <p>Another paragraph with <my-element>unknown</my-element> inline element</p>
+
+        <a href="#">Load element definition</a>
+
+        <script>
+            document.querySelector('a').onclick = function (e) {
+                e.preventDefault();
+                var script = document.createElement('script');
+                script.src = "my-element.js";
+                document.head.appendChild(script);
+            };
+        </script>
+    </body>
+</html>
