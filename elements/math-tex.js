@@ -20,31 +20,21 @@
         return false;
     }
 
-    function update(elem) {
-        var jax = elem._private.jax,
-            firstTypeset = !jax.hasAttribute('type');
-        jax.type = elem.getAttribute('display') === 'block' ? 'math/tex; mode=display' : 'math/tex';
-        jax.textContent = elem.textContent;
-        firstTypeset ? handler.typeset(jax) : handler.reprocess(jax);
-    }
-
     element_prototype.createdCallback = function () {
-        var sdom = this.createShadowRoot();
         var script = document.createElement('script');
-        sdom.appendChild(script);
+        this.createShadowRoot().appendChild(script);
         this._private = {jax: script};
     };
 
     element_prototype.attachedCallback = function () {
-        if (check_handler()) {
-            var elem = this;
-            if (this.textContent.trim())
-                update(this);
-            this._private.observer = new MutationObserver(function () {
-                update(elem);
-            });
-            this._private.observer.observe(this, mutation_config);
-        }
+        var elem = this;
+        if (!check_handler()) return;
+        if (this.textContent.trim())
+            this.update();
+        this._private.observer = new MutationObserver(function () {
+            elem.update();
+        });
+        this._private.observer.observe(this, mutation_config);
     };
 
     element_prototype.detachedCallback = function () {
@@ -54,13 +44,13 @@
         }
     }
 
-    /*element_prototype.attributeChangedCallback = function (attr, oldVal, newVal) {
-        if (attr === 'display')
-            update(this._private.jax, newVal);
-    };*/
+    element_prototype.update = function () {
+        var jax = this._private.jax;
+        jax.type = this.getAttribute('display') === 'block' ? 'math/tex; mode=display' : 'math/tex';
+        jax.textContent = this.textContent;
+        handler.typeset(jax);
+    }
 
-    document.registerElement(TAG_NAME, {
-        prototype: element_prototype
-    });
+    document.registerElement(TAG_NAME, {prototype: element_prototype});
 
 })();
