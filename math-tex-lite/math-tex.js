@@ -18,6 +18,7 @@
     element_prototype.createdCallback = function () {
         check_mathjax();
         this._jax = document.createElement('script');
+        this._jax.type = 'math/tex';
     };
 
     element_prototype.attachedCallback = function () {
@@ -27,23 +28,30 @@
         this.math = math;
     };
 
+    element_prototype.attributeChangedCallback = function (attr) {
+        if (attr === 'display')
+            this.update();
+    };
+
     Object.defineProperty(element_prototype, 'math', {
          get: function () {
-             return this._jax.textContent;
+             return this._jax.text;
          },
          set: function (value) {
-             this._jax.type = this.getAttribute('display') === 'block' ?
-                                'math/tex; mode=display' : 'math/tex';
              this._jax.text = value;
              this.update();
          }
     });
 
     element_prototype.update = function () {
+        this._jax.type = this.getAttribute('display') === 'block' ?
+                           'math/tex; mode=display' : 'math/tex';
         if (mathjax)
             mathjax.typeset(this._jax);
     }
 
-    document.registerElement('math-tex', {prototype: element_prototype});
+    document.registerElement('math-tex', {
+        prototype: element_prototype
+    });
 
 })();
