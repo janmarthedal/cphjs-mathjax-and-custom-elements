@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var mathjax,
+    var mathjax,    // reference to <mathjax-loader> singleton element
         element_prototype = Object.create(HTMLElement.prototype);
 
     function check_mathjax() {
@@ -22,10 +22,14 @@
     };
 
     element_prototype.attachedCallback = function () {
-        var math = this.textContent;
+        this._jax.text = this.textContent;
         this.innerHTML = '';
         this.appendChild(this._jax);
-        this.math = math;
+        this.update();
+    };
+
+    element_prototype.detachedCallback = function () {
+        this.textContent = this._jax.text;
     };
 
     element_prototype.attributeChangedCallback = function (attr) {
@@ -34,19 +38,19 @@
     };
 
     Object.defineProperty(element_prototype, 'math', {
-         get: function () {
-             return this._jax.text;
-         },
-         set: function (value) {
-             this._jax.text = value;
-             this.update();
-         }
+        get: function () {
+            return this._jax.text;
+        },
+        set: function (value) {
+            this._jax.text = value;
+            this.update();
+        }
     });
 
     element_prototype.update = function () {
         this._jax.type = this.getAttribute('display') === 'block' ?
                            'math/tex; mode=display' : 'math/tex';
-        if (mathjax)
+        if (mathjax && this._jax.parentNode === this)
             mathjax.typeset(this._jax);
     }
 

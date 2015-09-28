@@ -31,7 +31,7 @@
             skipStartupTypeset: true,
             jax: ['input/TeX', 'output/HTML-CSS'],
             TeX: {
-                extensions: ["AMSmath.js", "AMSsymbols.js", "noErrors.js", "noUndefined.js"]
+                extensions: ['AMSmath.js', 'AMSsymbols.js']
             },
             AuthorInit: function () {
                 MathJax.Hub.Register.StartupHook('End', callback);
