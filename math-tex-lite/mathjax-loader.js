@@ -63,4 +63,4 @@
         prototype: element_prototype
     });
 
-})(window);
+})();
