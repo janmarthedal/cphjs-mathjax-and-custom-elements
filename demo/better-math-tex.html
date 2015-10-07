@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>&lt;math-tex&gt; element demo</title>
+    <title>A better &lt;math-tex&gt;</title>
     <style>
       textarea {
         max-width: 100%;
         width: 40em;
       }
     </style>
-    <script src="mathjax-loader.js"></script>
-    <script src="math-tex.js"></script>
+    <script src="../node_modules/math-tex/mathjax-loader.js"></script>
+    <script src="../node_modules/math-tex/math-tex.js"></script>
     <mathjax-loader src="../node_modules/mathjax/MathJax.js"></mathjax-loader>
   </head>
   <body>
-    <h1>&lt;math-tex&gt; demo</h1>
+    <h1>A better &lt;math-tex&gt;</h1>
     <p>An equation:
       <math-tex id="testeqn" display="block">\sum_{k=1}^n k^2 = \frac{n(n+1)(2n+1)}{6}</math-tex></p>
     <p><input type="checkbox" checked> Use block style</p>
     <textarea placeholder="Input some math TeX" rows="3"></textarea>
     <p><button>Add formula</button></p>
     <div class="formulas">
-    </ul>
+    </div>
     <script>
       window.onload = function () {
         var checkbox = document.querySelector('input[type="checkbox"]'),

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dynamic math demo</title>
+    <style>
+      textarea {
+        max-width: 100%;
+        width: 40em;
+      }
+    </style>
+    <script src="../math-tex-lite/mathjax-loader.js"></script>
+    <script src="../math-tex-lite/math-tex.js"></script>
+    <mathjax-loader src="../node_modules/mathjax/MathJax.js"></mathjax-loader>
+  </head>
+  <body>
+    <h1>Dynamic math demo</h1>
+    <p>An equation:
+      <math-tex id="testeqn" display="block">\sum_{k=1}^n k^2 = \frac{n(n+1)(2n+1)}{6}</math-tex></p>
+    <p><input type="checkbox" checked> Use block style</p>
+    <textarea placeholder="Input some math TeX" rows="3"></textarea>
+    <p><button>Add formula</button></p>
+    <div class="formulas">
+    </div>
+    <script>
+      window.onload = function () {
+        var checkbox = document.querySelector('input[type="checkbox"]'),
+            testeqn = document.querySelector('#testeqn'),
+            textarea = document.querySelector('textarea')
+            button = document.querySelector('button'),
+            formulas = document.querySelector('div.formulas');
+            predefined = [
+              '1 + \\sum_{k=0}^{n-1} a_k(z)f(z)^{k-n} \\equiv 0',
+              '\\sum_{j=0}^n(-1)^{j}\\left(\\sum_{l=0}^j(-1)^l\\binom{n-k}{l}\\binom{k}{j-l}\\right)x^j',
+              '\\sin x = \\cdots\\left(1+\\frac{x}{3\\pi}\\right)\\left(1+\\frac{x}{2\\pi}\\right)\\left(1+\\frac{x}{\\pi}\\right)x\\left(1-\\frac{x}{\\pi}\\right)\\left(1-\\frac{x}{2\\pi}\\right)\\left(1-\\frac{x}{3\\pi}\\right)\\cdots',
+              '\\int \\frac{1}{1+e^{2x}}dx=\\int\\frac{1+e^{2x}-e^{2x}}{1+e^{2x}}dx=\\int dx -\\int \\frac{e^{2x}}{1+e^{2x}}dx =x-\\int \\frac{\\frac{dw}{2}}{1+w}',
+              '\\begin{align*}\\int_0^1 \\frac{\\log(x+1)}{x} \\, dx &= \\int_0^1 \\sum_{n=1}^\\infty (-1)^{n+1} \\frac{x^{n-1}}{n}dx\\\\  &=  \\sum_{n=1}^\\infty (-1)^{n+1}\\int_0^1 \\frac{x^{n-1}}{n}dx\\\\  &= \\sum_{n=1}^\\infty (-1)^{n+1} \\frac{1}{n^2}\\\\  &= \\frac{\\pi^2}{12}\\\\ \\end{align*}',
+            ];
+        checkbox.addEventListener('change', function () {
+          testeqn.setAttribute('display', checkbox.checked ? 'block' : 'inline');
+        });
+        button.addEventListener('click', function () {
+          var mathtex = document.createElement('math-tex');
+          mathtex.appendChild(document.createTextNode(textarea.value));
+          mathtex.setAttribute('display', 'block');
+          formulas.appendChild(mathtex);
+        });
+        textarea.addEventListener('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode >= 49 && e.keyCode < 49 + predefined.length) {
+            e.preventDefault();
+            textarea.value = predefined[e.keyCode - 49];
+          }
+        });
+      };
+    </script>
+  </body>
+</html>
