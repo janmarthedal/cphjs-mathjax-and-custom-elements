@@ -44,7 +44,7 @@
           mathtex.setAttribute('display', 'block');
           formulas.appendChild(mathtex);
         });
-        textarea.addEventListener('keypress', function (e) {
+        textarea.addEventListener('keydown', function (e) {
           if (e.ctrlKey && e.keyCode >= 49 && e.keyCode < 49 + predefined.length) {
             e.preventDefault();
             textarea.value = predefined[e.keyCode - 49];
