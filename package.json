@@ -18,7 +18,6 @@
   "homepage": "https://github.com/janmarthedal/cphjs-mathjax-and-custom-elements#readme",
   "dependencies": {
     "math-tex": "janmarthedal/math-tex",
-    "mathjax": "^2.5.1",
-    "webcomponents": "^0.1.4"
+    "mathjax": "^2.5.1"
   }
 }
